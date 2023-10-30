@@ -34,11 +34,11 @@ public class GameController {
         setComputerNumbers();
         Numbers computerNumbers = computer.getNumbers();
 
-        while(true) {
+        while (true) {
             setPlayerNumbers();
             Numbers playerNumbers = player.getNumbers();
 
-            if(compareNumbers(computerNumbers, playerNumbers)) {
+            if (compareNumbers(computerNumbers, playerNumbers)) {
                 break;
             }
         }

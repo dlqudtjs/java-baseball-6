@@ -24,7 +24,7 @@ public class Numbers {
     }
 
     public List<Integer> getNumbers() {
-        if(numbers.isEmpty()) {
+        if (numbers.isEmpty()) {
             return null;
         }
 

@@ -1,8 +1,6 @@
 package baseball.model;
 
 import baseball.constant.Config;
-import baseball.constant.Message;
-
 import baseball.view.OutputView;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class Hint {
     private void setBallCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
         this.ballCount = 0;
 
-        for(int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
+        for (int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
             int playerNumber = playerNumbers.get(i);
 
             if (!computerNumbers.get(i).equals(playerNumber) && computerNumbers.contains(playerNumber)) {
@@ -35,8 +33,8 @@ public class Hint {
     private void setStrikeCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
         this.strikeCount = 0;
 
-        for(int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
-            if(computerNumbers.get(i).equals(playerNumbers.get(i))) {
+        for (int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
+            if (computerNumbers.get(i).equals(playerNumbers.get(i))) {
                 this.strikeCount++;
             }
         }

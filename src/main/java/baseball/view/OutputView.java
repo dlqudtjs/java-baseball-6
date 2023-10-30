@@ -15,17 +15,17 @@ public class OutputView {
     public static void printHint(int strikeCount, int ballCount) {
         StringBuilder sb = new StringBuilder();
 
-        if(ballCount == 0 && strikeCount == 0) {
+        if (ballCount == 0 && strikeCount == 0) {
             System.out.println(Message.NOTHING);
             return;
         }
 
-        if(ballCount > 0) {
+        if (ballCount > 0) {
             sb.append(ballCount).append(Message.BALL);
             sb.append(" ");
         }
 
-        if(strikeCount > 0) {
+        if (strikeCount > 0) {
             sb.append(strikeCount).append(Message.STRIKE);
         }
 
