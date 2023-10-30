@@ -1,36 +1,63 @@
 package baseball.model;
 
+import baseball.constant.Config;
+import baseball.constant.Message;
+
 import java.util.List;
 
 public class Hint {
 
-    private static final int GAME_NUMBER_LENGTH = 3;
+    private int strikeCount = 0;
+    private int ballCount = 0;
 
-    public Hint() {}
+    public void setHindState(Numbers computerNumbers, Numbers playerNumbers) {
+        setBallCount(computerNumbers.getNumbers(), playerNumbers.getNumbers());
+        setStrikeCount(computerNumbers.getNumbers(), playerNumbers.getNumbers());
+    }
 
-    public int getBallCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
-        int ballCount = 0;
+    public void printHint() {
+        StringBuilder sb = new StringBuilder();
 
-        for(int i = 0; i < GAME_NUMBER_LENGTH; i++) {
+        if(ballCount == 0 && strikeCount == 0) {
+            System.out.println(Message.NOTHING);
+            return;
+        }
+
+        if(ballCount > 0) {
+            sb.append(ballCount).append(Message.BALL);
+            sb.append(" ");
+        }
+
+        if(strikeCount > 0) {
+            sb.append(strikeCount).append(Message.STRIKE);
+        }
+
+        System.out.println(sb);
+    }
+
+    private void setBallCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
+        this.ballCount = 0;
+
+        for(int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
             int playerNumber = playerNumbers.get(i);
 
             if (!computerNumbers.get(i).equals(playerNumber) && computerNumbers.contains(playerNumber)) {
-                ballCount++;
+                this.ballCount++;
             }
         }
-
-        return ballCount;
     }
 
-    public int getStrikeCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
-        int strikeCount = 0;
+    private void setStrikeCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
+        this.strikeCount = 0;
 
-        for(int i = 0; i < GAME_NUMBER_LENGTH; i++) {
+        for(int i = 0; i < Config.GAME_NUMBER_LENGTH; i++) {
             if(computerNumbers.get(i).equals(playerNumbers.get(i))) {
-                strikeCount++;
+                this.strikeCount++;
             }
         }
+    }
 
-        return strikeCount;
+    public boolean isCorrect() {
+        return strikeCount == Config.GAME_NUMBER_LENGTH;
     }
 }
