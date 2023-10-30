@@ -1,18 +1,17 @@
 package baseball.controller;
 
+import static baseball.constant.Config.GAME_RESTART_STATE;
+
 import baseball.model.Computer;
 import baseball.model.Hint;
+import baseball.model.Numbers;
 import baseball.model.Player;
+import baseball.validation.InputValidator;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
-import java.util.List;
 
 public class GameController {
-
-    private static final String GAME_RESTART_STATE = "1";
-    private static final String GAME_END_STATE = "2";
-    private static final int GAME_NUMBER_LENGTH = 3;
     private final Computer computer;
     private final Player player;
     private final Hint hint;
@@ -23,7 +22,7 @@ public class GameController {
         this.hint = new Hint();
     }
 
-    public void startGame() {
+    public void gameStart() {
         OutputView.printGameStartMessage();
 
         do {
@@ -32,11 +31,17 @@ public class GameController {
     }
 
     private void progress() {
-        computer.setRandomNumbers();
+        setComputerNumbers();
+        Numbers computerNumbers = computer.getNumbers();
 
-        do {
+        while(true) {
             setPlayerNumbers();
-        } while (!compareNumbers(computer.getNumbers(), player.getNumbers()));
+            Numbers playerNumbers = player.getNumbers();
+
+            if(compareNumbers(computerNumbers, playerNumbers)) {
+                break;
+            }
+        }
 
         OutputView.printGameEndMessage();
     }
@@ -44,28 +49,24 @@ public class GameController {
     private boolean isRestartState() {
         String input = InputView.inputRestartState();
 
-        if(input.equals(GAME_RESTART_STATE)){
-            return true;
-        }
+        InputValidator.validateInputState(input);
 
-        if (input.equals(GAME_END_STATE)) {
-            return false;
-        }
-
-        throw new IllegalArgumentException();
+        return input.equals(GAME_RESTART_STATE);
     }
 
-    private boolean compareNumbers(List<Integer> computerNumbers, List<Integer> playerNumbers) {
-        int strikeCount = hint.getStrikeCount(computerNumbers, playerNumbers);
-        int ballCount = hint.getBallCount(computerNumbers, playerNumbers);
+    private boolean compareNumbers(Numbers computerNumbers, Numbers playerNumbers) {
+        hint.setHindState(computerNumbers, playerNumbers);
+        hint.printHint();
 
-//        outputView.printHint(strikeCount, ballCount);
+        return hint.isCorrect();
+    }
 
-        return strikeCount == GAME_NUMBER_LENGTH;
+    private void setComputerNumbers() {
+        computer.setRandomNumbers();
     }
 
     private void setPlayerNumbers() {
         String input = InputView.inputPlayerNumber();
-        player.setPlayerNumbersWithString(input);
+        player.setPlayerNumbers(new Numbers(input));
     }
 }
