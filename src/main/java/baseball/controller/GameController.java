@@ -56,7 +56,7 @@ public class GameController {
 
     private boolean compareNumbers(Numbers computerNumbers, Numbers playerNumbers) {
         hint.setHindState(computerNumbers, playerNumbers);
-        hint.printHint();
+        hint.displayHint();
 
         return hint.isCorrect();
     }

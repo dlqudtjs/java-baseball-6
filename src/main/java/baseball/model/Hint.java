@@ -3,6 +3,7 @@ package baseball.model;
 import baseball.constant.Config;
 import baseball.constant.Message;
 
+import baseball.view.OutputView;
 import java.util.List;
 
 public class Hint {
@@ -15,24 +16,8 @@ public class Hint {
         setStrikeCount(computerNumbers.getNumbers(), playerNumbers.getNumbers());
     }
 
-    public void printHint() {
-        StringBuilder sb = new StringBuilder();
-
-        if(ballCount == 0 && strikeCount == 0) {
-            System.out.println(Message.NOTHING);
-            return;
-        }
-
-        if(ballCount > 0) {
-            sb.append(ballCount).append(Message.BALL);
-            sb.append(" ");
-        }
-
-        if(strikeCount > 0) {
-            sb.append(strikeCount).append(Message.STRIKE);
-        }
-
-        System.out.println(sb);
+    public void displayHint() {
+        OutputView.printHint(strikeCount, ballCount);
     }
 
     private void setBallCount(List<Integer> computerNumbers, List<Integer> playerNumbers) {
