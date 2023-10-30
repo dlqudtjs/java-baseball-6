@@ -16,19 +16,15 @@ public class GameController {
     private final Computer computer;
     private final Player player;
     private final Hint hint;
-    private final InputView inputView;
-    private final OutputView outputView;
 
     public GameController() {
         this.computer = new Computer();
         this.player = new Player();
         this.hint = new Hint();
-        this.inputView = new InputView();
-        this.outputView = new OutputView();
     }
 
     public void startGame() {
-        outputView.printGameStartMessage();
+        OutputView.printGameStartMessage();
 
         do {
             progress();
@@ -42,11 +38,11 @@ public class GameController {
             setPlayerNumbers();
         } while (!compareNumbers(computer.getNumbers(), player.getNumbers()));
 
-        outputView.printGameEndMessage();
+        OutputView.printGameEndMessage();
     }
 
     private boolean isRestartState() {
-        String input = inputView.inputRestartState();
+        String input = InputView.inputRestartState();
 
         if(input.equals(GAME_RESTART_STATE)){
             return true;
@@ -63,13 +59,13 @@ public class GameController {
         int strikeCount = hint.getStrikeCount(computerNumbers, playerNumbers);
         int ballCount = hint.getBallCount(computerNumbers, playerNumbers);
 
-        outputView.printHint(strikeCount, ballCount);
+//        outputView.printHint(strikeCount, ballCount);
 
         return strikeCount == GAME_NUMBER_LENGTH;
     }
 
     private void setPlayerNumbers() {
-        String input = inputView.inputPlayerNumber();
+        String input = InputView.inputPlayerNumber();
         player.setPlayerNumbersWithString(input);
     }
 }
